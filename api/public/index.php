@@ -5,13 +5,11 @@ declare(strict_types=1);
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-require_once dirname(__DIR__ ) . '/vendor/autoload.php';
+chdir(dirname(__DIR__ ));
 
-$config = [
-    'settings' => [
-        'addContentLengthHeader' => false,
-    ]
-];
+require_once 'vendor/autoload.php';
+
+$config = require_once 'config/config.php';
 
 $app = new \Slim\App($config);
 
