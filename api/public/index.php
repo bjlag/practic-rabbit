@@ -2,22 +2,14 @@
 
 declare(strict_types=1);
 
-use Slim\Http\Request;
-use Slim\Http\Response;
+use Api\Http\Action\HomeAction;
+use Slim\App;
 
-chdir(dirname(__DIR__ ));
+chdir(dirname(__DIR__));
 
 require_once 'vendor/autoload.php';
-
 $config = require_once 'config/config.php';
 
-$app = new \Slim\App($config);
-
-$app->get('/', function (Request $request, Response $response) {
-    return $response->withJson([
-        'name' => 'API app',
-        'version' => '1.0',
-    ]);
-});
-
+$app = new App($config);
+$app->get('/', HomeAction::class);
 $app->run();
