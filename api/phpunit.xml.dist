@@ -9,8 +9,11 @@
     </php>
 
     <testsuites>
-        <testsuite name="Tests">
-            <directory>./tests</directory>
+        <testsuite name="functional">
+            <directory>./tests/Functional</directory>
+        </testsuite>
+        <testsuite name="unit">
+            <directory>./tests/unit</directory>
         </testsuite>
     </testsuites>
 
