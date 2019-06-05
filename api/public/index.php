@@ -13,8 +13,8 @@ if (file_exists('.env')) {
 }
 
 (function () {
-    $config = require_once 'config/config.php';
-    $app = new App($config);
+    $container = require_once 'config/container.php';
+    $app = new App($container);
 
     (require_once 'config/routes.php')($app);
 
