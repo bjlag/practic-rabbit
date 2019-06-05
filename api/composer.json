@@ -7,6 +7,7 @@
         "ext-json": "^1.5",
         "psr/http-server-handler": "^1.0",
         "slim/slim": "^3.12",
+        "symfony/dotenv": "^4.3",
         "zendframework/zend-diactoros": "^2.1"
     },
     "require-dev": {
