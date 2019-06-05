@@ -11,5 +11,5 @@ require_once 'vendor/autoload.php';
 $config = require_once 'config/config.php';
 
 $app = new App($config);
-$app->get('/', HomeAction::class);
+$app->get('/', HomeAction::class . ':handle');
 $app->run();
