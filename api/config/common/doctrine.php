@@ -7,10 +7,6 @@ use Doctrine\ORM\Tools\Setup;
 use Psr\Container\ContainerInterface;
 
 return [
-    'settings' => [
-        'addContentLengthHeader' => false,
-    ],
-
     EntityManagerInterface::class => function (ContainerInterface $container) {
         $params = $container['config']['doctrine'];
         $config = Setup::createAnnotationMetadataConfiguration(

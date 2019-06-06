@@ -10,6 +10,7 @@
         "ramsey/uuid": "^3.8",
         "slim/slim": "^3.12",
         "symfony/dotenv": "^4.3",
+        "zendframework/zend-config-aggregator": "^1.1",
         "zendframework/zend-diactoros": "^2.1"
     },
     "require-dev": {
