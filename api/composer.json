@@ -6,6 +6,7 @@
         "php": ">=7.2.0",
         "ext-json": "^1.5",
         "psr/http-server-handler": "^1.0",
+        "ramsey/uuid": "^3.8",
         "slim/slim": "^3.12",
         "symfony/dotenv": "^4.3",
         "zendframework/zend-diactoros": "^2.1"
