@@ -9,6 +9,7 @@
         "psr/http-server-handler": "^1.0",
         "ramsey/uuid": "^3.8",
         "slim/slim": "^3.12",
+        "symfony/console": "^4.3",
         "symfony/dotenv": "^4.3",
         "zendframework/zend-config-aggregator": "^1.1",
         "zendframework/zend-diactoros": "^2.1"
@@ -28,6 +29,7 @@
         }
     },
     "scripts": {
+        "app": "php bin/app.php --ansi",
         "test": "phpunit --colors=always"
     }
 }
