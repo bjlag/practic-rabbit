@@ -2,16 +2,49 @@
 
 namespace Api\Model\User\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
+ * @ORM\Table(name="user_users", uniqueConstraints={
+ *      @ORM\UniqueConstraint(columns={"email"})
+ * })
+ */
 class User
 {
     const STATUS_WAIT = 1;
     const STATUS_ACTIVE = 2;
 
+    /**
+     * @ORM\Column(type="user_user_id")
+     * @ORM\Id
+     */
     private $id;
+
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
     private $date;
+
+    /**
+     * @ORM\Column(type="user_user_email")
+     */
     private $email;
+
+    /**
+     * @ORM\Column(type="string", name="password_hash")
+     */
     private $passwordHash;
+
+    /**
+     * @ORM\Embedded(class="ConfirmToken", columnPrefix="confirm_token_")
+     */
     private $confirmToken;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
     private $status;
 
     public function __construct(
@@ -81,5 +114,15 @@ class User
     public function isActive(): bool
     {
         return $this->status === self::STATUS_ACTIVE;
+    }
+
+    /**
+     * @ORM\PostLoad
+     */
+    public function checkEmbeds(): void
+    {
+        if ($this->confirmToken->isEmpty()) {
+            $this->confirmToken = null;
+        }
     }
 }
