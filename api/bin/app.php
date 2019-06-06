@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Console\ConsoleRunner;
+use Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Dotenv\Dotenv;
 
@@ -16,6 +18,9 @@ if (file_exists('.env')) {
 /** @var \Psr\Container\ContainerInterface $container */
 $container = require_once 'config/container.php';
 $cli = new Application('Console application');
+
+$entityManager = $container->get(EntityManagerInterface::class);
+$cli->getHelperSet()->set(new EntityManagerHelper($entityManager), 'em');
 
 ConsoleRunner::addCommands($cli);
 
