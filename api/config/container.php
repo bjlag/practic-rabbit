@@ -8,6 +8,7 @@ use Zend\ConfigAggregator\PhpFileProvider;
 
 $aggregator = new ConfigAggregator([
     new PhpFileProvider('config/common/*.php'),
+    new PhpFileProvider('config/' . (getenv('APP_ENV') ?: 'prod') .'/*.php'),
 ]);
 
 return new Container($aggregator->getMergedConfig());
