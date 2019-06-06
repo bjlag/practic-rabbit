@@ -1,5 +1,6 @@
 <?php
 
+use Api\Infrastructure\Doctrine\Type;
 use Doctrine\Common\Cache\FilesystemCache;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,6 +18,12 @@ return [
             false
         );
 
+        foreach ($params['types'] as $type => $class) {
+            if (!\Doctrine\DBAL\Types\Type::hasType($type)) {
+                \Doctrine\DBAL\Types\Type::addType($type, $class);
+            }
+        }
+
         return EntityManager::create($params['connection'], $config);
     },
 
@@ -27,6 +34,10 @@ return [
             'metadata_dirs' => ['src/Model/User/Entity'],
             'connection' => [
                 'url' => getenv('APP_DB_URL'),
+            ],
+            'types' => [
+               Type\User\UserIdType::NAME => Type\User\UserIdType::class,
+               Type\User\EmailType::NAME => Type\User\EmailType::class,
             ]
         ]
     ]
