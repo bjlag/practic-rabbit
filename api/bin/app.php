@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Doctrine\ORM\Tools\Console\ConsoleRunner;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Dotenv\Dotenv;
 
@@ -15,6 +16,8 @@ if (file_exists('.env')) {
 /** @var \Psr\Container\ContainerInterface $container */
 $container = require_once 'config/container.php';
 $cli = new Application('Console application');
+
+ConsoleRunner::addCommands($cli);
 
 $commands = $container->get('config')['console']['commands'];
 foreach ($commands as $command) {
