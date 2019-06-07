@@ -56,7 +56,7 @@ class WebTestCase extends TestCase
     protected function app(): App
     {
         $app = new App($this->container());
-        (require_once 'config/routes.php')($app);
+        (require 'config/routes.php')($app);
 
         return $app;
     }
@@ -83,6 +83,6 @@ class WebTestCase extends TestCase
 
     protected function container(): ContainerInterface
     {
-        return require_once 'config/container.php';
+        return require 'config/container.php';
     }
 }
