@@ -13,6 +13,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Slim\App;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequest;
+use Zend\Diactoros\Stream;
 use Zend\Diactoros\Uri;
 
 class WebTestCase extends TestCase
@@ -22,12 +23,24 @@ class WebTestCase extends TestCase
         return $this->method($uri, 'GET');
     }
 
-    protected function method(string $uri, string $method): ResponseInterface
+    protected function post(string $uri, array $params = []): ResponseInterface
     {
+        return $this->method($uri, 'POST', $params);
+    }
+
+    protected function method(string $uri, string $method, array $params = []): ResponseInterface
+    {
+        $body = new Stream('php://temp', 'r+');
+        $body->write(json_encode($params));
+        $body->rewind();
+
         /** @var ServerRequestInterface $request */
         $request = (new ServerRequest())
+            ->withHeader('Content-Type', 'application/json')
+            ->withHeader('Accept', 'application/json')
             ->withUri(new Uri('http://localhost:8081' . $uri))
-            ->withMethod($method);
+            ->withMethod($method)
+            ->withBody($body);
 
         return $this->request($request);
     }
