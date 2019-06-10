@@ -55,8 +55,9 @@ class WebTestCase extends TestCase
 
     protected function app(): App
     {
-        $app = new App($this->container());
-        (require 'config/routes.php')($app);
+        $container = $this->container();
+        $app = new App($container);
+        (require 'config/routes.php')($app, $container);
 
         return $app;
     }

@@ -12,6 +12,10 @@ return [
         ]
     ],
 
+    \Api\Http\Middleware\DomainExceptionMiddleware::class => function (ContainerInterface $container) {
+        return new \Api\Http\Middleware\DomainExceptionMiddleware();
+    },
+
     Model\User\Service\Flusher::class => function (ContainerInterface $container) {
         return new \Api\Infrastructure\Model\Service\DoctrineFlusher(
             $container->get(EntityManagerInterface::class)
