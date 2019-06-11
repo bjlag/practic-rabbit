@@ -12,6 +12,14 @@ return [
         ]
     ],
 
+    \Symfony\Component\Validator\Validator\ValidatorInterface::class => function () {
+        \Doctrine\Common\Annotations\AnnotationRegistry::registerLoader('class_exists');
+
+        return Symfony\Component\Validator\Validation::createValidatorBuilder()
+            ->enableAnnotationMapping()
+            ->getValidator();
+    },
+
     \Api\Http\Middleware\DomainExceptionMiddleware::class => function (ContainerInterface $container) {
         return new \Api\Http\Middleware\DomainExceptionMiddleware();
     },
@@ -56,7 +64,8 @@ return [
 
     Action\Auth\SignUp\RequestAction::class => function (ContainerInterface $container) {
         return new Action\Auth\SignUp\RequestAction(
-            $container->get(Model\User\UseCase\SignUp\Request\Handler::class)
+            $container->get(Model\User\UseCase\SignUp\Request\Handler::class),
+            $container->get(\Symfony\Component\Validator\Validator\ValidatorInterface::class)
         );
     },
 
