@@ -16,7 +16,7 @@ if (file_exists('.env')) {
     $container = require_once 'config/container.php';
     $app = new App($container);
 
-    (require_once 'config/routes.php')($app);
+    (require_once 'config/routes.php')($app, $container);
 
     $app->run();
 })();
