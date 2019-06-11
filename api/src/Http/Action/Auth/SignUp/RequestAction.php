@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Api\Http\Action\Auth\SignUp;
 
+use Api\Http\Validator\SymfonyValidator;
 use Api\Model\User\UseCase\SignUp\Request\Command;
 use Api\Model\User\UseCase\SignUp\Request\Handler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Symfony\Component\Validator\ConstraintViolationListInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Zend\Diactoros\Response\JsonResponse;
 
 class RequestAction implements RequestHandlerInterface
@@ -18,7 +17,7 @@ class RequestAction implements RequestHandlerInterface
     private $handler;
     private $validator;
 
-    public function __construct(Handler $handler, ValidatorInterface $validator)
+    public function __construct(Handler $handler, SymfonyValidator $validator)
     {
         $this->handler = $handler;
         $this->validator = $validator;
@@ -32,14 +31,7 @@ class RequestAction implements RequestHandlerInterface
         $command->email = $body['email'] ?? '';
         $command->password = $body['password'] ?? '';
 
-        $violations = $this->validator->validate($command);
-        if ($violations->count() > 0) {
-            $errors = [];
-            /** @var ConstraintViolationListInterface $violation */
-            foreach ($violations as $violation) {
-                $errors[$violation->getPropertyPath()] = $violation->getMessage();
-            }
-
+        if ($errors = $this->validator->validate($command)) {
             return new JsonResponse([
                 'errors' => $errors
             ], 400);

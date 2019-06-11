@@ -20,6 +20,12 @@ return [
             ->getValidator();
     },
 
+    \Api\Http\Validator\SymfonyValidator::class => function(ContainerInterface $container) {
+        return new \Api\Http\Validator\SymfonyValidator(
+            $container->get(\Symfony\Component\Validator\Validator\ValidatorInterface::class)
+        );
+    },
+
     \Api\Http\Middleware\DomainExceptionMiddleware::class => function (ContainerInterface $container) {
         return new \Api\Http\Middleware\DomainExceptionMiddleware();
     },
@@ -65,7 +71,7 @@ return [
     Action\Auth\SignUp\RequestAction::class => function (ContainerInterface $container) {
         return new Action\Auth\SignUp\RequestAction(
             $container->get(Model\User\UseCase\SignUp\Request\Handler::class),
-            $container->get(\Symfony\Component\Validator\Validator\ValidatorInterface::class)
+            $container->get(\Api\Http\Validator\SymfonyValidator::class)
         );
     },
 
