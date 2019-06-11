@@ -14,7 +14,7 @@ class DomainExceptionMiddleware implements MiddlewareInterface
     {
         try {
             return $handler->handle($request);
-        } catch (\DomainException $e) {
+        } catch (\Exception $e) {
             return new JsonResponse([
                 'error' => $e->getMessage(),
             ], 400);
