@@ -26,8 +26,12 @@ return [
         );
     },
 
-    \Api\Http\Middleware\DomainExceptionMiddleware::class => function (ContainerInterface $container) {
+    \Api\Http\Middleware\DomainExceptionMiddleware::class => function () {
         return new \Api\Http\Middleware\DomainExceptionMiddleware();
+    },
+
+    \Api\Http\Middleware\ValidationExceptionMiddleware::class => function () {
+        return new \Api\Http\Middleware\ValidationExceptionMiddleware();
     },
 
     Model\User\Service\Flusher::class => function (ContainerInterface $container) {

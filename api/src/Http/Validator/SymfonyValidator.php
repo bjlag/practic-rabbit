@@ -2,7 +2,6 @@
 
 namespace Api\Http\Validator;
 
-use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class SymfonyValidator
@@ -14,18 +13,10 @@ class SymfonyValidator
         $this->validator = $validator;
     }
 
-    public function validate($object): array
+    public function validate($object): ?Errors
     {
         $violations = $this->validator->validate($object);
-        $errors = [];
 
-        if ($violations->count() > 0) {
-            /** @var ConstraintViolationListInterface $violation */
-            foreach ($violations as $violation) {
-                $errors[$violation->getPropertyPath()] = $violation->getMessage();
-            }
-        }
-
-        return $errors;
+        return $violations->count() > 0 ? new Errors($violations) : null;
     }
 }
