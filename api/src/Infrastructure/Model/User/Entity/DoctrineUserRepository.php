@@ -24,7 +24,7 @@ class DoctrineUserRepository implements UserRepository
     public function findByEmail(Email $email): User
     {
         /** @var $user User */
-        if (($user = $this->repo->findOneBy(['email' => $email->getEmail()])) !== null) {
+        if (($user = $this->repo->findOneBy(['email' => $email])) !== null) {
             return $user;
         }
 
