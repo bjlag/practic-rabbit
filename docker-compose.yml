@@ -46,3 +46,10 @@ services:
             - POSTGRES_PASSWORD=secret
         ports:
             - "54321:5432"
+
+    mailer:
+        image: mailhog/mailhog
+        restart: unless-stopped
+        ports:
+            - "1025:1025"
+            - "8085:8025"
