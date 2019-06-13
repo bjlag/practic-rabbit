@@ -25,7 +25,7 @@ class ConfirmTest extends WebTestCase
     {
         $response = $this->post('/auth/signup/confirm', [
             'email' => $email = 'active@email.com',
-            'token' => 'token_active',
+            'token' => 'token',
         ]);
 
         self::assertEquals(400, $response->getStatusCode());
@@ -59,7 +59,7 @@ class ConfirmTest extends WebTestCase
     {
         $response = $this->post('/auth/signup/confirm', [
             'email' => $email = 'expired@email.com',
-            'token' => 'token_expired',
+            'token' => 'token',
         ]);
 
         self::assertEquals(400, $response->getStatusCode());
@@ -93,7 +93,7 @@ class ConfirmTest extends WebTestCase
     {
         $response = $this->post('/auth/signup/confirm', [
             'email' => $email = 'confirm@email.com',
-            'token' => 'token_confirm',
+            'token' => 'token',
         ]);
 
         self::assertEquals(200, $response->getStatusCode());

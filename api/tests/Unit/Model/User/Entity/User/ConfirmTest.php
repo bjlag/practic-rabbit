@@ -3,16 +3,15 @@
 namespace Api\Test\Unit\Model\User\Entity\User;
 
 use Api\Model\User\Entity\ConfirmToken;
-use Api\Model\User\Entity\Email;
 use Api\Model\User\Entity\User;
-use Api\Model\User\Entity\UserId;
+use Api\Test\Builder\UserBuilder;
 use PHPUnit\Framework\TestCase;
 
 class ConfirmTest extends TestCase
 {
     public function testSuccess()
     {
-        $now =  new \DateTimeImmutable();
+        $now = new \DateTimeImmutable();
         $token = new ConfirmToken('token', $now->modify('+1 day'));
 
         $user = $this->signUp($token);
@@ -30,7 +29,7 @@ class ConfirmTest extends TestCase
 
     public function testAlreadyActive()
     {
-        $now =  new \DateTimeImmutable();
+        $now = new \DateTimeImmutable();
         $token = new ConfirmToken('token', $now->modify('+1 day'));
 
         $user = $this->signUp($token);
@@ -42,7 +41,7 @@ class ConfirmTest extends TestCase
 
     public function testInvalidToken()
     {
-        $now =  new \DateTimeImmutable();
+        $now = new \DateTimeImmutable();
         $token = new ConfirmToken('token', $now->modify('+1 day'));
 
         $user = $this->signUp($token);
@@ -53,7 +52,7 @@ class ConfirmTest extends TestCase
 
     public function testTokenExpired()
     {
-        $now =  new \DateTimeImmutable();
+        $now = new \DateTimeImmutable();
         $token = new ConfirmToken('token', $now->modify('-1 day'));
 
         $user = $this->signUp($token);
@@ -64,14 +63,8 @@ class ConfirmTest extends TestCase
 
     private function signUp(ConfirmToken $token): User
     {
-        $user = new User(
-            UserId::next(),
-            new \DateTimeImmutable(),
-            new Email('user@email.com'),
-            'hash',
-            $token
-        );
-
-        return $user;
+        return (new UserBuilder())
+            ->withConfirmToken($token)
+            ->build();
     }
 }
