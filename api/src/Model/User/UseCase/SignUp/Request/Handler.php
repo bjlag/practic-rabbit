@@ -17,7 +17,12 @@ class Handler
     private $tokenizer;
     private $flusher;
 
-    public function __construct(UserRepository $users, PasswordHasher $hasher, ConfirmTokenizer $tokenizer, Flusher $flusher)
+    public function __construct(
+        UserRepository $users,
+        PasswordHasher $hasher,
+        ConfirmTokenizer $tokenizer,
+        Flusher $flusher
+    )
     {
         $this->users = $users;
         $this->hasher = $hasher;
@@ -42,7 +47,6 @@ class Handler
         );
 
         $this->users->add($user);
-
-        $this->flusher->flush();
+        $this->flusher->flush($user);
     }
 }

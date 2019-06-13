@@ -2,6 +2,8 @@
 
 namespace Api\Model\User\Entity;
 
+use Api\Model\AggregateRoot;
+use Api\Model\User\Entity\Event\UserCreatedEvent;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -11,10 +13,12 @@ use Doctrine\ORM\Mapping as ORM;
  *      @ORM\UniqueConstraint(columns={"email"})
  * })
  */
-class User
+class User implements AggregateRoot
 {
     const STATUS_WAIT = 1;
     const STATUS_ACTIVE = 2;
+
+    private $recordedEvents = [];
 
     /**
      * @ORM\Column(type="user_user_id")
@@ -61,6 +65,8 @@ class User
         $this->passwordHash = $passwordHash;
         $this->confirmToken = $confirmToken;
         $this->status = self::STATUS_WAIT;
+
+        $this->recordEvent(new UserCreatedEvent($this->id, $this->email, $this->confirmToken));
     }
 
     public function confirmSignup(string $token, \DateTimeImmutable $date): void
@@ -124,5 +130,18 @@ class User
         if ($this->confirmToken->isEmpty()) {
             $this->confirmToken = null;
         }
+    }
+
+    public function releaseEvents(): array
+    {
+        $events = $this->recordedEvents;
+        $this->recordedEvents = [];
+
+        return $events;
+    }
+
+    private function recordEvent($event): void
+    {
+        $this->recordedEvents[] = $event;
     }
 }

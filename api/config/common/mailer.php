@@ -10,6 +10,7 @@ return [
             'username' => getenv('APP_MAILER_USERNAME'),
             'password' => getenv('APP_MAILER_PASSWORD'),
             'encryption' => getenv('APP_MAILER_ENCRYPTION'),
+            'from' => [getenv('APP_MAILER_FROM_EMAIL') => 'App']
         ]
     ],
 
