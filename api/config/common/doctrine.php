@@ -31,13 +31,18 @@ return [
         'doctrine' => [
             'dev_mode' => false,
             'cache_dir' => 'var/cache/doctrine',
-            'metadata_dirs' => ['src/Model/User/Entity'],
+            'metadata_dirs' => [
+                'src/Model/User/Entity',
+                'src/Model/OAuth/Entity',
+            ],
             'connection' => [
                 'url' => getenv('APP_DB_URL'),
             ],
             'types' => [
-               Type\User\UserIdType::NAME => Type\User\UserIdType::class,
-               Type\User\EmailType::NAME => Type\User\EmailType::class,
+                Type\User\UserIdType::NAME => Type\User\UserIdType::class,
+                Type\User\EmailType::NAME => Type\User\EmailType::class,
+                Type\OAuth\ClientType::NAME => Type\OAuth\ClientType::class,
+                Type\OAuth\ScopeType::NAME => Type\OAuth\ScopeType::class,
             ]
         ]
     ]
