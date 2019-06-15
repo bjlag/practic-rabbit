@@ -22,15 +22,15 @@ class WebTestCase extends TestCase
 
     protected function get(string $uri, array $headers = []): ResponseInterface
     {
-        return $this->method($uri, 'GET');
+        return $this->method($uri, 'GET', [], $headers);
     }
 
-    protected function post(string $uri, array $params = []): ResponseInterface
+    protected function post(string $uri, array $params = [], array $headers = []): ResponseInterface
     {
-        return $this->method($uri, 'POST', $params);
+        return $this->method($uri, 'POST', $params, $headers);
     }
 
-    protected function method(string $uri, string $method, array $params = []): ResponseInterface
+    protected function method(string $uri, string $method, array $params = [], array $headers = []): ResponseInterface
     {
         $body = new Stream('php://temp', 'r+');
         $body->write(json_encode($params));
@@ -43,6 +43,10 @@ class WebTestCase extends TestCase
             ->withUri(new Uri('http://localhost:8081' . $uri))
             ->withMethod($method)
             ->withBody($body);
+
+        foreach ($headers as $header => $value) {
+            $request = $request->withHeader($header, $value);
+        }
 
         return $this->request($request);
     }
