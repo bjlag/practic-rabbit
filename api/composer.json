@@ -8,6 +8,7 @@
         "doctrine/migrations": "^1.8",
         "doctrine/orm": "^2.6",
         "geekdevs/swift-mailer-extensions": "^2.0",
+        "league/oauth2-server": "^7.4",
         "psr/http-server-handler": "^1.0",
         "psr/http-server-middleware": "^1.0",
         "ramsey/uuid": "^3.8",
