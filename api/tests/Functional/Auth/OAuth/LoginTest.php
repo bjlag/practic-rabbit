@@ -17,14 +17,14 @@ class LoginTest extends WebTestCase
 
     public function testMethod(): void
     {
-        $response = $this->get('/auth/oauth/login');
+        $response = $this->get('/auth/oauth');
         self::assertEquals(405, $response->getStatusCode());
     }
 
     public function testSuccess(): void
     {
-        $response = $this->post('/auth/oauth/login', [
-            'grand_type' => 'password',
+        $response = $this->post('/auth/oauth', [
+            'grant_type' => 'password',
             'username' => 'login@email.com',
             'password' => 'secret',
             'client_id' => 'app',
@@ -52,8 +52,8 @@ class LoginTest extends WebTestCase
 
     public function testFail(): void
     {
-        $response = $this->post('/auth/oauth/login', [
-            'grand_type' => 'password',
+        $response = $this->post('/auth/oauth', [
+            'grant_type' => 'password',
             'username' => 'login@email.com',
             'password' => 'wrong_pass',
             'client_id' => 'app',
