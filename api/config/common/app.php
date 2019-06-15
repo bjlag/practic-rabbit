@@ -26,8 +26,12 @@ return [
         );
     },
 
-    \Api\Http\Middleware\DomainExceptionMiddleware::class => function () {
-        return new \Api\Http\Middleware\DomainExceptionMiddleware();
+    Middleware\BodyParamsMiddleware::class => function () {
+        return new Middleware\BodyParamsMiddleware();
+    },
+
+    Middleware\DomainExceptionMiddleware::class => function () {
+        return new Middleware\DomainExceptionMiddleware();
     },
 
     \Api\Http\Middleware\ValidationExceptionMiddleware::class => function () {
