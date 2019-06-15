@@ -9,6 +9,7 @@ use League\OAuth2\Server\Grant\ClientCredentialsGrant;
 use League\OAuth2\Server\Grant\ImplicitGrant;
 use League\OAuth2\Server\Grant\PasswordGrant;
 use League\OAuth2\Server\Grant\RefreshTokenGrant;
+use League\OAuth2\Server\Middleware\ResourceServerMiddleware;
 use League\OAuth2\Server\Repositories;
 use League\OAuth2\Server\ResourceServer;
 use Psr\Container\ContainerInterface;
@@ -70,7 +71,13 @@ return [
 
         return new ResourceServer(
             $container->get(Repositories\AccessTokenRepositoryInterface::class),
-            $config['publicKey']
+            new CryptKey($config['publicKey'], null, false)
+        );
+    },
+
+    ResourceServerMiddleware::class => function(ContainerInterface $container) {
+        return new ResourceServerMiddleware(
+            $container->get(ResourceServer::class)
         );
     },
 
