@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from "axios";
 
 Vue.use(Vuex);
 
@@ -30,6 +31,30 @@ export default new Vuex.Store({
     },
 
     actions: {
+        login(context, data) {
+            return new Promise((resolve, reject) => {
+                context.commit('logout');
+
+                axios.post('/auth/oauth', {
+                    'grant_type': 'password',
+                    'username': data.username,
+                    'password': data.password,
+                    'client_id': 'app',
+                    'client_secret': '',
+                    'access_type': 'offline',
+                })
+                    .then((response) => {
+                        const user = response.data;
+                        context.commit('login', user);
+                        resolve(user);
+                    })
+                    .catch((error) => {
+                        context.commit('logout');
+                        reject(error);
+                    });
+            });
+        },
+
         logout(context) {
             return new Promise((resolve) => {
                 context.commit('logout');

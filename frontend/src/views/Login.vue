@@ -37,9 +37,22 @@
         methods: {
             login(event) {
                 event.preventDefault();
-                this.$store.commit('login', this.$data.form.email);
-                alert('Login with ' + this.$data.form.email);
-                return false;
+
+                this.error = null;
+                this.$store.dispatch('login', {
+                    'username': this.form.email,
+                    'password': this.form.password,
+                })
+                    .then(() => {
+                        this.$router.push({'name': 'home'});
+                    })
+                    .catch((error) => {
+                        if (error.response) {
+                            this.error = error.response.data.error;
+                        } else {
+                            console.log(error.message);
+                        }
+                    });
             }
         }
     }
