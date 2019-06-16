@@ -15,8 +15,14 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item"><router-link class="nav-link" :to="{name: 'home'}">Home</router-link></li>
                     <li class="nav-item"><router-link class="nav-link" :to="{name: 'about'}">About</router-link></li>
-                    <li class="nav-item"><router-link class="nav-link" :to="{name: 'signup'}">Sign Up</router-link></li>
-                    <li class="nav-item"><router-link class="nav-link" :to="{name: 'login'}">Login</router-link></li>
+
+                    <template v-if="$store.getters.isLoggedIn">
+                        <li class="nav-item"><a class="nav-link" href="" @click="logout">Log Out</a></li>
+                    </template>
+                    <template v-else>
+                        <li class="nav-item"><router-link class="nav-link" :to="{name: 'signup'}">Sign Up</router-link></li>
+                        <li class="nav-item"><router-link class="nav-link" :to="{name: 'login'}">Login</router-link></li>
+                    </template>
                 </ul>
             </div>
         </div>
@@ -25,6 +31,14 @@
 
 <script>
     export default {
-        name: 'Nav',
+        methods: {
+            logout(event) {
+                event.preventDefault();
+                this.$store.dispatch('logout')
+                    .then(() => {
+                        this.$router.push({name: 'login'});
+                    });
+            }
+        }
     }
 </script>

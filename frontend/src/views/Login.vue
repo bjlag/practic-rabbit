@@ -6,6 +6,8 @@
                     Login
                 </div>
                 <div class="card-body">
+                    <b-alert variant="danger" v-if="error" show>{{ error }}</b-alert>
+
                     <b-form @submit="login">
                         <b-form-group label="Email" label-for="loginEmail">
                             <b-form-input id="loginEmail" type="email" v-model="form.email" required></b-form-input>
@@ -23,18 +25,19 @@
 
 <script>
     export default {
-        name: 'Login',
         data() {
             return {
                 form: {
-                    email: null,
+                    email: this.$store.state.currentEmail,
                     password: null
-                }
+                },
+                error: null
             }
         },
         methods: {
             login(event) {
                 event.preventDefault();
+                this.$store.commit('login', this.$data.form.email);
                 alert('Login with ' + this.$data.form.email);
                 return false;
             }
