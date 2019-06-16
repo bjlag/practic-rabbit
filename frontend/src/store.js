@@ -7,7 +7,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         currentEmail: null,
-        user: null,
+        user: JSON.parse(localStorage.getItem('user')),
     },
 
     getters: {
@@ -46,6 +46,7 @@ export default new Vuex.Store({
                     .then((response) => {
                         const user = response.data;
                         context.commit('login', user);
+                        localStorage.setItem('user', JSON.stringify(user));
                         resolve(user);
                     })
                     .catch((error) => {
@@ -58,6 +59,7 @@ export default new Vuex.Store({
         logout(context) {
             return new Promise((resolve) => {
                 context.commit('logout');
+                localStorage.removeItem('user');
                 resolve();
             });
         }
