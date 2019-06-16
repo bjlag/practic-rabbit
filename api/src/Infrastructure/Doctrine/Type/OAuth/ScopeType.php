@@ -26,7 +26,7 @@ class ScopeType extends JsonType
 
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        $values = parent::convertToDatabaseValue($value, $platform);
+        $values = parent::convertToPHPValue($value, $platform);
 
         if ($value) {
             return array_map(function (string $identifier) {
